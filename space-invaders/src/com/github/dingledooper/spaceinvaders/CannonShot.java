@@ -1,6 +1,7 @@
 package com.github.dingledooper.spaceinvaders;
 
 import java.awt.Graphics;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 
@@ -9,9 +10,12 @@ public class CannonShot extends Sprite {
 	public static final String CANNON_SHOT_IMG = "res/cannonshot.png";
 	public static final int WIDTH = 1, HEIGHT = 10;
 	public static final int SPEED = 7;
+	
+	private Random r;
 
 	public CannonShot() {
 		super(Cannon.CANNON_X, Cannon.CANNON_Y, WIDTH, HEIGHT);
+		r = new Random();
 		
 		ImageIcon icon = new ImageIcon(CANNON_SHOT_IMG);
 		setImage(icon.getImage());
@@ -56,13 +60,18 @@ public class CannonShot extends Sprite {
 		
 		
 		if (isIntersecting(getX(), getY(), getWidth(), getHeight(), mystery.getX(), mystery.getY(), mystery.getWidth(), mystery.getHeight())) {
+			Audio.play(3);
+			
+			game.mysteryScoreTick = 50;
+			game.mysteryHitX = mystery.getX();
+			game.mysteryHitY = mystery.getY();
+			
+			game.mysteryPoints = (r.nextInt(3) + 1) * 100;
+			game.setScore(game.getScore() + game.mysteryPoints);
+			
 			setRemoved(true);
 			mystery.setRemoved(true);
 			mystery.setX(mystery.getDirection() == 1 ? Game.WIDTH : -WIDTH);
-
-			game.mysteryScoreTick = 20;
-			game.setScore(game.getScore() + Mystery.POINTS);
-			Audio.play(3);
 		}
 	}
 	
