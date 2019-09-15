@@ -25,7 +25,6 @@ public class InvaderShot extends Sprite {
 	
 	public void checkCollisions(Game game, List<InvaderShot> invaderShots, Bunker[] bunkers, Graphics g, Cannon cannon, CannonShot cannonShot) {
 		if (isIntersecting(getX(), getY(), getWidth(), getHeight(), cannon.getX(), cannon.getY() + 9, cannon.getWidth(), cannon.getHeight())) {
-			
 			setRemoved(true);
 			cannon.setLives(cannon.getLives() - 1);
 
