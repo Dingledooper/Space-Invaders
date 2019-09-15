@@ -25,7 +25,7 @@ public class Game extends JPanel {
 	public static final int FPS = 60;
 	public static final ImageIcon LOGO_ICON = new ImageIcon("res/logo.png");
 
-	public int mysteryScoreTick = 0;
+	public int mysteryScoreTick = 0, mysteryHitX = 0, mysteryHitY = 0, mysteryPoints = 200;
 	public int[][] deathEffect = new int[Invaders.ROWS][Invaders.COLS];
 
 	private int frame = 0, dir = 1;
@@ -132,6 +132,11 @@ public class Game extends JPanel {
 					cannonShot.setRemoved(true);
 				}
 			}
+			
+			if (invaders.getNumEnemies() == 0) {
+				nextLevel();
+				return;
+			}
 
 			if (Math.random() < 0.015) {
 				Invader frontInvader = invaders.getRandomFrontInvader();
@@ -143,23 +148,18 @@ public class Game extends JPanel {
 				
 				invaderShots.add(invaderShot);
 			}
-			
-			for (int i = 0; i < invaderShots.size(); i++) {
-				if (invaderShots.get(i).isRemoved()) {
-					invaderShots.remove(i);
-				}
-			}
 
 			for (InvaderShot invaderShot : invaderShots) {
 				if (!invaderShot.isRemoved()) {
 					invaderShot.draw(g);
 					invaderShot.checkCollisions(this, invaderShots, bunkers, g, cannon, cannonShot);
 					invaderShot.move();
-					
-					if (invaders.getNumEnemies() == 0) {
-						nextLevel();
-						return;
-					}
+				}
+			}
+			
+			for (int i = 0; i < invaderShots.size(); i++) {
+				if (invaderShots.get(i).isRemoved() || invaderShots.get(i).getY() > HEIGHT) {
+					invaderShots.remove(i);
 				}
 			}
 
@@ -205,7 +205,7 @@ public class Game extends JPanel {
 				mysteryScoreTick--;
 				g.setColor(Color.WHITE);
 				g.setFont(getSpaceInvadersFont().deriveFont(10F));
-				g.drawString(Integer.toString(Mystery.POINTS), mystery.getX() + (mystery.getDirection() == 1 ? -30 : 30), mystery.getY());
+				g.drawString(Integer.toString(mysteryPoints), mysteryHitX + 10, mysteryHitY + 20);
 			}
 			
 			Toolkit.getDefaultToolkit().sync();
