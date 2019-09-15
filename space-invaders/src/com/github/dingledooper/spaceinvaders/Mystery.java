@@ -7,8 +7,7 @@ public class Mystery extends Sprite {
 	public static final String MYSTERY_IMG = "res/mystery.png";
 	public static final int WIDTH = 48, HEIGHT = 21, MYSTERY_X = -32, MYSTERY_Y = 60;
 	public static final int SPEED = 2;
-	public static final int POINTS = 200;
-	public static final int TICKS_UNTIL_MYSTERY = 2400;
+	public static final int TICKS_UNTIL_MYSTERY = 2000;
 	
 	private int audioTick = 0;
 	private int dir = -1;
